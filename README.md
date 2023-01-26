@@ -16,3 +16,11 @@
 </p>
 
 An open source scientific article created using the [showyourwork](https://github.com/showyourwork/showyourwork) workflow.
+
+# Notes on compiling/running
+
+Your setup needs a working conda and mamba install to use showyourwork or snakemake properly. snakemake's --use-conda should be set via command line or a snakemake profile.
+
+Load a jupyter devenv `snakemake -c 1 --use-conda devenv`
+
+
