@@ -1,56 +1,147 @@
+%\makeatletter
+%\declare@file@substitution{revtex4-1.cls}{revtex4-2.cls}
+%\makeatother
+
+
 % Define document class
 \documentclass[twocolumn]{aastex631}
 \usepackage{showyourwork}
+
+\graphicspath{ {./figures/} }
 
 % Begin!
 \begin{document}
 
 % Title
-\title{An open source scientific article}
+\title{Homework 2: Characterizing The Double Cluster: h and $\chi$ Persi}
 
 % Author list
 \author{@mtauraso}
 
 % Abstract with filler text
 \begin{abstract}
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-    Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis.
-    Curabitur dictum gravida mauris, consectetuer id, vulputate a, magna.
-    Donec vehicula augue eu neque, morbi tristique senectus et netus et.
-    Mauris ut leo, cras viverra metus rhoncus sem, nulla et lectus vestibulum.
-    Phasellus eu tellus sit amet tortor gravida placerat.
-    Integer sapien est, iaculis in, pretium quis, viverra ac, nunc.
-    Praesent eget sem vel leo ultrices bibendum.
-    Aenean faucibus, morbi dolor nulla, malesuada eu, pulvinar at, mollis ac.
-    Curabitur auctor semper nulla donec varius orci eget risus.
-    Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam.
-    Duis eget orci sit amet orci dignissim rutrum.
+
 \end{abstract}
 
 % Main body with filler text
-\section{Introduction}
+\section{Cluster Membership}
 \label{sec:intro}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis.
-Curabitur dictum gravida mauris, consectetuer id, vulputate a, magna.
-Donec vehicula augue eu neque, morbi tristique senectus et netus et.
-Mauris ut leo, cras viverra metus rhoncus sem, nulla et lectus vestibulum.
-Phasellus eu tellus sit amet tortor gravida placerat.
-Integer sapien est, iaculis in, pretium quis, viverra ac, nunc.
-Praesent eget sem vel leo ultrices bibendum.
-Aenean faucibus, morbi dolor nulla, malesuada eu, pulvinar at, mollis ac.
-Curabitur auctor semper nulla donec varius orci eget risus.
-Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam.
-Duis eget orci sit amet orci dignissim rutrum.
+I'm starting with a 2 degree box search near the double-cluster's known location from Simbad. In order to determine cluster membership parameters, I'm looking specifically at the cores of the two clusters, following the analysis linked in slack \cite{zhongSubstructure2019}. Focusing the proper motion and distance analysis on the known cluster centers will give the greatest chance of picking out the attributes of the cluster rather than field stars. For the purposes of this homework the cluster center is within 10 arc minutes of the simbad locations for the two clusters. Figure \ref{fig:skypos} shows the sky locations highlighted in the 2 degree box search.
 
-Nam dui ligula, fringilla a, euismod sodales, sollici- tudin vel, wisi.
-Morbi auctor lorem non justo, nam lacus libero, pretium at, lobortis vitae.
-Donec aliquet, tortor sed accumsan bibendum, erat ligula aliquet magna.
-Morbi ac orci et nisl hendrerit mollis, suspendisse ut massa, cras nec ante.
-Pellentesque a nulla cum sociis natoque penatibus et magnis dis parturient.
-Aliquam tincidunt urna, nulla ullamcorper vestibulum turpis.
-Pellentesque cursus luctus mauris \citep{Luger2021}.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\columnwidth] {skypos.png}
+\caption{Sky position of cluster centers with 10 arcmin boundaries used for membership analysis}
+\label{fig:skypos}
+\end{figure}
+
+For determining cluster membership, I'm first going to derive proper motion criteria from fitting the cluster center, which should have more cluster stars than field stars. Then using that criteria, I will return to a larger box search and apply proper motion bounds as a filter for membership. This is along the lines of Zhong's analysis, but the principle is sound. Because membership in the cluster is supposed to mean that these stars were all together in the past, that should show up most strongly in proper motion space. Examining the cluster centers to determine proper motion bounds, gives me a good way to remove the influence of stray field stars from that estimate.
+
+To demonstrate this effect of focusing on the central core qualitatively, I've generated two plots of the sample stars in proper motion space in figure \ref{fig:pmscatter}. The first plot includes all stars in the 2 degree box search. The lump given by the cluster is clearly visible and corresponds to the double-cluster. The second plot has the same axes, but the input sources are restricted to the core stars, within 10 arcmin of the known cluster centers. The same lump in proper-motion space is visible and much stronger in comparison to the background. 
+
+This reduction in the influence of field stars will become important in particular to fitting in pmra (proper motion right-ascension) gaussian. On both plots the over-density corresponding to the double cluster is very nearly centered in right-ascension space on the gaussian distribution of field stars.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.45\columnwidth]{pmscatter_fit2.png}
+\includegraphics[width=0.45\columnwidth]{pmscatter_fit1.png}
+\caption{Proper motion scatter plots showing the 2 degree field (left) and core regions only (right). The red ellipses are gaussian fits for the proper motion of the cluster}
+\label{fig:pmscatter}
+\end{figure}
+
+Figure \ref{fig:pmfit} shows double-gaussian fits in ra and dec proper motion space respectively. Only stars within the 10 arc-minute core radius are included in the data. The fit is to a double gaussian, with the intent of characterizing the gaussian distribution of the cluster while allowing the second gaussian to describe the proper motion distribution of field stars. The parameters of the cluster fit are displayed on the plot, and also as the red overlays in Figure \ref{fig:pmscatter}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\columnwidth] {pmra_fit.png} 
+\includegraphics[width=0.95\columnwidth] {pmdec_fit.png}
+\caption{Fit of cluster and background in proper motion space. Blue is gaia proper motions. Red is background fit, Green is cluster fit, and Orange is total fit.}
+\label{fig:pmfit}
+\end{figure}
+
+The criteria I am using for proper motion is that a star is a member by proper motion if it's proper motion falls within the elipse defined by a 2 standard deviation radius about the mean of the proper motion fitted gaussians. At this point in the analysis, members identified using only proper motion criteria number 7248 stars in the 2 degree box search, with 2290 of those stars appearing within the 10 arcmin core regions of the clusters. 
+
+In order to reach a member census that is closer to the literature, my membership criteria is also going to include the Bailer-Jones geometric distance. Fitting a double-gaussian on stars which are members by the proper motion criteria yields the fit at the top of Figure \ref{fig:distfit}. This Bailer-Jones distance estimate was used for the rest of the analysis to determine cluster membership; however, I have also fit parallax and Gaia photometric distance, in order to have those values later in the analysis.
+
+It is important to note that my handling of distances does not account for error in the distances (unlike \cite{zhongSubstructure2019}). And I'm likely to have issues with sources for which determining distance is difficult. The Gaia photometric distances for my proper-motion identified cluster members suggest there are some stars that may be very much closer or for which there are large errors in the distances.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\columnwidth] {bjdist_fit.png} 
+\includegraphics[width=0.95\columnwidth] {gaiadist_fit.png}
+\includegraphics[width=0.95\columnwidth] {parallaxdist_fit.png}
+\caption{Fit of various distance measurements on cluster core stars which are members by proper motion criteria. Blue is the labeled distance measuurement. Red is background fit, Green is cluster fit, and Orange is total fit.}
+\label{fig:distfit}
+\end{figure}
+
+Adding a similar 2 sigma critera in Bailer-Jones distance space, gives a triaxial elipsoid of cluster membership in (pmra, pmdec, distance) space. My cluster membership criteria is that a member star must be within this volume. This criteria gives me 2961 cluster members in a 2 degree box search,  with 1266 of those lying within the core regions. If I expand my search to 7.5 degrees around the center between the two clusters I find 6837 stars matching my criteria for membership. Looking at my 7.5 degree scatter plot, I am able to make out some of the features mentioned in Zhang's paper. However, qualitatively comparing the plots, I likely have more field star contamination than they do in the double-cluster's halo.
+
+\section{Characterizing the Cluster}
+
+Using the 2961 cluster members in the 2 degree box search, I first attempted to fit MIST isochrones in absolute magnitude space. I used Bailer-Jones distances and Gaia's estimates of per-source extinction to determine an absolute $G$ band magnitude and a $G_bp-G_rp$ color for all sources. Color magnitude diagrams in both absolute and apparent space are shown in figures \ref{fig:cmdabs} and \ref{fig:cmdapp}. The fit isochrones are superposed; however, there's some interesting features to point out immediately.  
+
+The apparent magnitude diagram is much more spread out, and its difficult to conclusively identify much beyond the main sequence. This is reasonable for a young cluster; however, in the apparent magnitude diagram a sub giant branch is clearly visible, and the main sequence is much tighter. It is specifically the per-source color correction for interstellar reddening that is responsible for the vast majority of this shape change. That fact combined with the distribution of gaia photometry distances makes me suspect that there are close but faint stars mixed in with my sample. On the absolute magnitude diagram there is some visible banding in the main sequence which may be indicative of multiple stars.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\columnwidth] {abscmd.png} 
+\caption{Absolute CMD showing best fit isochrone and fit parameters}
+\label{fig:cmdabs}
+\end{figure}
+
+The best isochrone fit I found is superposed on figure \ref{fig:cmdabs}. I did muck around a bit with trying to map the turn-off and main sequence manually by adding parameters. Ultimately I ended up checking a grid of 153 isochrones automatically evenly spaced between 13 Myr to 17 Myr of age and metalicities between -0.1 and 0.1 on the $[Fe/H]$ scale. The best fit isochrone is very nearly what I came up with manually, and in this case the computer seemed to me to do no better or worse than I did. My age estimate is 14.75 Myr, and my metallicity estimate is $[Fe/H] = 0.025$.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\columnwidth] {appcmd.png} 
+\caption{Apparent CMD showing best fit isochrone and fit parameters. Age and Metallicity were selected a priori from the Absolute Magnitude plot. Only Distance and Extinction were fit}
+\label{fig:cmdapp}
+\end{figure}
+
+In an attempt to derive a distance from the isochrones, I started with the age and metallicity above and fit distance and $A_v$ extinction in apparent magnitude space. This was a somewhat more fraught process because of the way the stars are spread-out especially in the lower part of the main sequence. I eventually elected to eliminate all stars with magnitude dimmer than 17 from the fitting process. I suspect several of the dim sources that are not lined up on the apparent magnitude CMD are actually much closer objects and not necessarily cluster members. It is also possible that they are cluster members, but are not resolved properly due to their dimness.
+
+After removing these dim sources, I was able to fit an isochrone as shown in Figure \ref{fig:cmdapp}, by iterating over a similarly constructed grid of parameters. Qualitatively, the turn-off and main sequence of this isochrone match the data very well. This fit predicts a distance of 2 kpc. This is somewhat closer than the Bailer Jones distances ($2.26 \pm  0.147$ kpc) and 1/Parallax distances ($2.425 \pm 0.164$ kpc) would suggest; however, it is within the range of the somewhat less precise Gaia Photometry distances ($2.237 \pm 0.494$ kpc). These values are fit in figure \ref{fig:distfit}
+
+I used both fit isochrones to arrive at mass values for the Double Cluster as a whole. To derive an overall mass I computed mass for each stellar source by finding the mass associated with the closest point on the best-fit isochrone in CMD space. Then I summed the resultant masses. Using the apparent magnitude CMD I get $7722 M_\odot$. Using the absolute magnitude CMD gives $6539 M_\odot$.  In thinking about these two estimates, its important to note that some 358 sources, making up 12\% of all members, did not appear in the absolute magnitude diagram. It is therefore understandable the mass estimated from the absolute CMD is 15\% less. Given that the 358 sources did not have extinction and reddening parameters, but did have $G$ band magnitude and color, the $7722 M_\odot$ estimate is likely more representative of the stars that are visible in the cluster. This estimate also matches some of the values in the literature\cite{braggStructure2005}.
+
+Figure \ref{fig:massdist} shows histograms of the stars by mass for both diagrams. The histogram indicates that it is mostly smaller stars that are either missing from the absolute CMD, or are classified by the absolute CMD fit as having a greater mass than they have in the apparent magnitude fit. This should add some confidence to the fitting decisions made above regarding dim sources. Dim sources are not necessarily as trustworthy for determininig cluster properties; however, they still contain important information and need to be counted.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\columnwidth]{massdist.png} 
+\caption{Mass distribution from isochrone fits in apparent magnitude CMD (red) and absolute magnitude CMD (blue)}
+\label{fig:massdist}
+\end{figure}
+
+Finally, I used the equation in the homework slightly modified to fit to the density distribution of stars. I separated my 2 degree box search into a grid of 1 arcminute square grids counting the number of stars in each grid to determine a density, and then did a least squares fit for two cluster density profiles centered on the known cluster centers. This process gave critical radii of 3'11s for NGC869, and 4'49s for NGC869. The two critical radii are shown superposed on cluster members in figure \ref{fig:rcrit}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\columnwidth]{rcrit.png} 
+\caption{Scatter plot of cluster member stars with the critical radii superposed}
+\label{fig:rcrit}
+\end{figure}
+
+\section{Error Discussion}
+The inital box search was filtered such that sources considered for membership had to have at least a 5-parameter astrometric solution (ra, dec, pmra, pmdec, parallax) as well as measured values for $G$ magnitude and $G_bp-G_rp$ color. There is some small bias introduced by the elimination of these sources; however, the more concerning aspect is that no attempt was made in the analysis to handle the errors on any of these quantities. Probably the first thing that could be done to improve cluster membership criteria is to find an appropriate manner to handle the error in these values, especially handling dim sources with high relative error.  It is also possible that using apparent CMD space as an additional membership criteria would help eliminate these spurious sources. It would be interesting to see if the magnitude limiting in fitting apparent magnitude isochrones is still necessary if the cluster membership criteria are improved
+
+\section{Summary of key values}
+\begin{tabular}{ l r r } 
+Member stars & 2961 & count \\
+Member stars (core) & 1266 & count \\
+Age & 14.75 & Myr \\
+Metallicity & 0.025 & [Fe/H] \\
+Distance (from Isochrones) & 2000 & pc \\
+Mean Proper Motion (RA) & $-0.636 \pm 0.149$ & mas/yr\\
+Mean Proper Motion (dec) & $-1.145 \pm 0.120$ & mas/yr\\
+Mean Bailer-Jones Distance & $2262 \pm 147$ & pc \\
+Cluster Radius NGC869 & 3' 11s & \\
+Cluster Raidus NGC884 & 4' 49s& \\
+Cluster Mass  (total) & 7722 & $M_\odot$ \\
+\end{tabular}
+
+
 
 \bibliography{bib}
 

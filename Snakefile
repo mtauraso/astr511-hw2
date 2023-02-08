@@ -11,3 +11,7 @@ rule devenv:
   conda: "environment.yml"
   shell: "jupyter notebook"
 
+rule texworks:
+  conda: "environment.yml"
+  shell: "texworks"
+

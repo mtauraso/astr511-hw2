@@ -4,9 +4,18 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - conda-forge::numpy=1.19.2
+  - conda-forge::numpy=1.23.5
   - conda-forge::pip=21.0.1
   - conda-forge::python=3.9
   - conda-forge::jupyter=1.0.0
+  - conda-forge::astroquery=0.4.6
+  - conda-forge::astropy=5.2.1
+  - conda-forge::h5py=3.8.0
+  - conda-forge::scipy=1.10.0
+  - conda-forge::numba=0.56.4
+  - conda-forge::holoviews=1.15.4
+  - conda-forge::pytables=3.7.0
+  - conda-forge::pandas=1.5.3 
   - pip:
       - matplotlib==3.4.3
+      - isochrones==2.1
